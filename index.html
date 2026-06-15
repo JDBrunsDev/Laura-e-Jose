@@ -1,809 +1,518 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-  <!-- ============================================================
-       SEO / METADADOS  (edite título e descrição se desejar)
-       ============================================================ -->
-  <title>Laura &amp; José · Casamento</title>
-  <meta name="description" content="Convite de casamento - Laura e José. 15 de novembro de 2026, às 16h, no Arte & Gula, em Brusque/SC. Confirme sua presença com carinho." />
-  <meta name="theme-color" content="#5b6042" />
-  <meta name="author" content="Laura & José" />
-
-  <!-- Open Graph (compartilhamento em redes/WhatsApp) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Casamento de Laura & José" />
-  <meta property="og:description" content="15 de novembro de 2026, às 16h, no Arte & Gula — Brusque/SC." />
-  <!-- TROCAR: imagem de preview ao compartilhar o link -->
-  <meta property="og:image" content="assets/preview-compartilhamento.jpg" />
-  <meta property="og:locale" content="pt_BR" />
-
-  <!-- ============================================================
-       FONTES (Google Fonts)
-       Tangerine = nomes dos noivos | Cormorant = títulos | Montserrat = textos
-       ============================================================ -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="estilos.css" />
-</head>
-
-<body>
-  <!-- Link de acessibilidade (pular para o conteúdo) -->
-  <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
-
-  <!-- ============================================================
-       TELA DE ABERTURA (ENVELOPE CINEMATOGRÁFICO)
-       Cena com poeira dourada + luz; ao clicar no lacre o envelope
-       abre e revela o site. Lógica em script.js > initAbertura().
-       TROCAR BRASÃO: assets/brasao.png (quadrada, fundo transparente).
-       Sem a imagem, aparece o texto "L&J".
-       ============================================================ -->
-  <div class="abertura" data-abertura>
-    <canvas class="abertura__particulas" data-particulas aria-hidden="true"></canvas>
-    <div class="abertura__luz" aria-hidden="true"></div>
-    <div class="abertura__brilho-final" data-brilho aria-hidden="true"></div>
-
-    <div class="abertura__cena" data-cena>
-      <div class="envelope" data-envelope>
-        <div class="envelope__sombra" aria-hidden="true"></div>
-
-        <div class="envelope__corpo">
-          <!-- Forro decorativo visível ao abrir a aba -->
-          <span class="envelope__forro" aria-hidden="true"></span>
-
-          <!-- Carta que flutua para fora ao abrir -->
-          <div class="envelope__carta" data-carta aria-hidden="true">
-            <span class="carta__topo">Com a bênção de Deus</span>
-            <span class="carta__nomes">Laura &amp; José</span>
-            <span class="carta__sub">têm a alegria de convidar você</span>
-            <span class="carta__data">15 · 11 · 2026</span>
-            <span class="carta__sprig" aria-hidden="true"></span>
-          </div>
-
-          <!-- Aba superior com forro interno (face dupla 3D) -->
-          <div class="envelope__aba" data-aba aria-hidden="true">
-            <span class="envelope__aba-fora"></span>
-            <span class="envelope__aba-dentro"></span>
-          </div>
-
-          <!-- Frente do envelope (cobre a carta quando fechado) -->
-          <span class="envelope__frente" aria-hidden="true"></span>
-
-          <!-- Lacre / selo de cera (clicável) -->
-          <button class="lacre" type="button" data-abertura-lacre aria-label="Abrir o convite">
-            <span class="lacre__cera" aria-hidden="true"><span class="lacre__gloss"></span></span>
-            <img class="lacre__brasao" data-brasao src="assets/brasao.png" alt="" aria-hidden="true" />
-            <span class="lacre__texto">L&amp;J</span>
-          </button>
-        </div>
-      </div>
-
-      <p class="abertura__hint" data-abertura-hint>toque no selo para abrir</p>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       CABEÇALHO  (header fixo + menu)
-       ============================================================ -->
-  <header class="cabecalho" id="cabecalho" data-cabecalho>
-    <div class="cabecalho__interno container">
-      <a class="cabecalho__logo" href="#inicio" aria-label="Laura e José — ir para o início">Laura &amp; José</a>
-
-      <button class="cabecalho__hamburguer" type="button" aria-label="Abrir menu de navegação"
-              aria-expanded="false" aria-controls="menu-principal" data-menu-toggle>
-        <span></span><span></span><span></span>
-      </button>
-
-      <nav class="cabecalho__nav" aria-label="Navegação principal">
-        <ul class="menu" id="menu-principal" data-menu>
-          <li><a class="menu__link" href="#inicio">Início</a></li>
-          <li><a class="menu__link" href="#historia">História</a></li>
-          <li><a class="menu__link" href="#grande-dia">O Grande Dia</a></li>
-          <li><a class="menu__link" href="#cronograma">Cronograma</a></li>
-          <li><a class="menu__link" href="#familia">Pais &amp; Avós</a></li>
-          <li><a class="menu__link" href="#padrinhos">Padrinhos</a></li>
-          <li><a class="menu__link" href="#presentes">Presentes</a></li>
-          <li><a class="menu__link" href="#confirmacao">Confirmação</a></li>
-          <li><a class="menu__link" href="#galeria">Galeria</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Camada escura ao abrir o menu no mobile -->
-  <div class="overlay-menu" data-menu-overlay hidden></div>
-
-  <main>
-    <!-- ============================================================
-         1) HERO / INÍCIO
-         ============================================================ -->
-    <section class="hero" id="inicio">
-      <!-- TROCAR VÍDEO DE FUNDO: substitua assets/video-fundo.mp4.
-           Se o vídeo falhar, a imagem de fallback (poster) aparece. -->
-      <video class="hero__video" autoplay muted loop playsinline
-             poster="assets/fundo.jpg" aria-hidden="true">
-        <source src="assets/video-fundo.mp4" type="video/mp4" />
-      </video>
-
-      <div class="hero__overlay" aria-hidden="true"></div>
-
-      <div class="hero__conteudo container">
-        <p class="hero__intro hero-item">Com a bênção de Deus, convidamos você</p>
-        <h1 class="hero__nomes hero-item">Laura &amp; José</h1>
-        <p class="hero__data hero-item">
-          15 de novembro de 2026 &nbsp;•&nbsp; Domingo, às 16h00
-        </p>
-        <p class="hero__local hero-item">
-          Arte &amp; Gula &nbsp;•&nbsp; Brusque, Santa Catarina
-        </p>
-
-        <!-- CONTAGEM REGRESSIVA — atualizada via script.js (CONFIG.dataEvento) -->
-        <div class="contagem hero-item" data-contagem
-             aria-label="Contagem regressiva para o casamento">
-          <div class="contagem__bloco"><span class="contagem__num" data-cont-dias>00</span><span class="contagem__rotulo">dias</span></div>
-          <span class="contagem__sep" aria-hidden="true"></span>
-          <div class="contagem__bloco"><span class="contagem__num" data-cont-horas>00</span><span class="contagem__rotulo">horas</span></div>
-          <span class="contagem__sep" aria-hidden="true"></span>
-          <div class="contagem__bloco"><span class="contagem__num" data-cont-min>00</span><span class="contagem__rotulo">min</span></div>
-          <span class="contagem__sep" aria-hidden="true"></span>
-          <div class="contagem__bloco"><span class="contagem__num" data-cont-seg>00</span><span class="contagem__rotulo">seg</span></div>
-        </div>
-
-        <div class="hero__acoes hero-item">
-          <a class="botao botao--ouro" href="#grande-dia">Detalhes do casamento</a>
-          <a class="botao botao--contorno" href="#confirmacao">Confirmar presença</a>
-          <!-- Copia o endereço completo (texto definido em script.js > CONFIG.endereco) -->
-          <button class="botao botao--fantasma" type="button" data-copiar-endereco>Copiar endereço</button>
-        </div>
-      </div>
-
-      <a class="hero__rolar" href="#historia" aria-label="Rolar para a próxima seção">
-        <span class="hero__rolar-traco" aria-hidden="true"></span>
-      </a>
-    </section>
-
-    <!-- ============================================================
-         2) NOSSA HISTÓRIA
-         ============================================================ -->
-    <section class="secao historia" id="historia">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Nossa História</h2>
-          <p class="secao__subtitulo">
-            Um amor que nasceu na casa de Deus, cresceu em amizade e hoje se torna aliança.
-          </p>
-        </div>
-
-        <div class="historia__grade">
-          <!-- TROCAR FOTO DA HISTÓRIA: assets/historia.jpg -->
-          <figure class="moldura moldura--retrato animar" data-animar>
-            <img class="moldura__img" src="assets/historia.jpg" alt="Laura e José" loading="lazy" />
-            <span class="moldura__placeholder" aria-hidden="true"></span>
-          </figure>
-
-          <div class="historia__texto animar" data-animar data-animar-atraso="1">
-            <p>A nossa história começou dentro da igreja, em meio a cultos, louvores, abraços sinceros e aquela presença que, aos poucos, foi ficando indispensável.</p>
-            <p>Primeiro veio a amizade, o cuidado um com o outro e a alegria de compartilhar a vida em Cristo.</p>
-            <p>No acampamento de jovens de 2025, Deus confirmou aquilo que o coração já desconfiava: era amor. Entre orações, conversas e muitos sorrisos, entendemos que Ele estava escrevendo algo especial.</p>
-            <p>Em <strong>31 de maio de 2025</strong>, oficializamos o namoro e começamos a sonhar juntos.</p>
-            <p>Hoje, com muita gratidão, damos o próximo passo: construir um lar. Queremos celebrar com você o início dessa nova fase, pedindo que Deus continue sendo o centro de tudo o que somos e viveremos.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         3) O GRANDE DIA
-         ============================================================ -->
-    <section class="secao secao--oliva grande-dia" id="grande-dia">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento secao__ornamento--claro" aria-hidden="true"></span>
-          <h2 class="secao__titulo">O Grande Dia</h2>
-          <p class="secao__subtitulo">
-            Um fim de tarde preparado com carinho para celebrar, agradecer e viver esse sonho com você.
-          </p>
-        </div>
-
-        <div class="cartoes">
-          <article class="cartao animar" data-animar>
-            <h3 class="cartao__titulo">Data &amp; Horário</h3>
-            <p class="cartao__texto">15 de novembro de 2026<br />Domingo, às 16h00</p>
-          </article>
-
-          <article class="cartao animar" data-animar data-animar-atraso="1">
-            <h3 class="cartao__titulo">Local</h3>
-            <p class="cartao__texto">Arte &amp; Gula<br />Brusque • Santa Catarina</p>
-          </article>
-
-          <article class="cartao animar" data-animar data-animar-atraso="2">
-            <h3 class="cartao__titulo">Traje</h3>
-            <p class="cartao__texto">Traje social</p>
-          </article>
-
-          <article class="cartao animar" data-animar data-animar-atraso="3">
-            <h3 class="cartao__titulo">Endereço</h3>
-            <p class="cartao__texto">R. Dorval Luz, 183<br />Brusque - SC<br />CEP 88352-402</p>
-          </article>
-        </div>
-
-        <div class="grande-dia__acoes animar" data-animar>
-          <!-- TROCAR LINKS DE MAPA: href do Google Maps e do Waze -->
-          <a class="botao botao--ouro" href="https://maps.app.goo.gl/JjQtjvdPB5AaFrr76" target="_blank" rel="noopener">Abrir no Google Maps</a>
-          <a class="botao botao--contorno-claro" href="https://www.waze.com/en/live-map/directions/arte-e-gula-r.-dorval-luz-183-brusque?place=w.203884025.2038971326.13561764" target="_blank" rel="noopener">Abrir no Waze</a>
-          <button class="botao botao--fantasma-claro" type="button" data-copiar-endereco>Copiar endereço</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         4) SUGESTÕES DE TRAJES  (2 carrosséis)
-         ============================================================ -->
-    <section class="secao trajes" id="trajes">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Sugestões de Trajes</h2>
-          <p class="secao__subtitulo">Traje social — clássico, elegante e com a sua personalidade.</p>
-        </div>
-
-        <div class="trajes__grade">
-          <!-- CARD 1 — TRAJE MASCULINO -->
-          <article class="cartao-traje animar" data-animar>
-            <!-- TROCAR FOTOS: assets/trajes/masc-1.jpg, masc-2.jpg, masc-3.jpg ...
-                 Para adicionar mais fotos, basta duplicar um <figure> dentro de .carrossel__trilho -->
-            <div class="carrossel" data-carrossel aria-roledescription="carrossel" aria-label="Sugestões de traje social masculino">
-              <div class="carrossel__janela">
-                <div class="carrossel__trilho" data-carrossel-trilho>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/masc-1.jpg" alt="Sugestão de traje social masculino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje masculino</span>
-                  </figure>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/masc-2.jpg" alt="Sugestão de traje social masculino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje masculino</span>
-                  </figure>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/masc-3.jpg" alt="Sugestão de traje social masculino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje masculino</span>
-                  </figure>
-                </div>
-              </div>
-              <button class="carrossel__seta carrossel__seta--ant" type="button" aria-label="Foto anterior" data-carrossel-ant>‹</button>
-              <button class="carrossel__seta carrossel__seta--prox" type="button" aria-label="Próxima foto" data-carrossel-prox>›</button>
-              <div class="carrossel__dots" data-carrossel-dots aria-hidden="true"></div>
-            </div>
-
-            <div class="cartao-traje__texto">
-              <h3 class="cartao-traje__titulo">Traje social masculino</h3>
-              <p>Ternos, camisas sociais, calças alinhadas e sapatos bem cuidados. Clássico, elegante e com a sua personalidade.</p>
-            </div>
-          </article>
-
-          <!-- CARD 2 — TRAJE FEMININO -->
-          <article class="cartao-traje animar" data-animar data-animar-atraso="1">
-            <!-- TROCAR FOTOS: assets/trajes/fem-1.jpg, fem-2.jpg, fem-3.jpg ... -->
-            <div class="carrossel" data-carrossel aria-roledescription="carrossel" aria-label="Sugestões de traje social feminino">
-              <div class="carrossel__janela">
-                <div class="carrossel__trilho" data-carrossel-trilho>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/fem-1.jpg" alt="Sugestão de traje social feminino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje feminino</span>
-                  </figure>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/fem-2.jpg" alt="Sugestão de traje social feminino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje feminino</span>
-                  </figure>
-                  <figure class="carrossel__slide">
-                    <img class="moldura__img" src="assets/trajes/fem-3.jpg" alt="Sugestão de traje social feminino" loading="lazy" />
-                    <span class="moldura__placeholder" aria-hidden="true">Traje feminino</span>
-                  </figure>
-                </div>
-              </div>
-              <button class="carrossel__seta carrossel__seta--ant" type="button" aria-label="Foto anterior" data-carrossel-ant>‹</button>
-              <button class="carrossel__seta carrossel__seta--prox" type="button" aria-label="Próxima foto" data-carrossel-prox>›</button>
-              <div class="carrossel__dots" data-carrossel-dots aria-hidden="true"></div>
-            </div>
-
-            <div class="cartao-traje__texto">
-              <h3 class="cartao-traje__titulo">Traje social feminino</h3>
-              <p>Vestidos, conjuntos sociais ou macacões elegantes. Movimento, delicadeza e beleza em cada detalhe.</p>
-            </div>
-          </article>
-        </div>
-
-        <!-- Observação delicada sobre cores reservadas (paleta verde oliva) -->
-        <p class="trajes__nota animar" data-animar>
-          Com carinho pedimos, reservar o <strong>branco</strong> e o <strong>champagne</strong> à noiva.
-        </p>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         5) CRONOGRAMA
-         ============================================================ -->
-    <section class="secao secao--areia cronograma" id="cronograma">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Cronograma</h2>
-          <p class="secao__subtitulo">
-            Pensamos em cada horário com carinho para que tudo aconteça sem pressa, com leveza e muitos sorrisos.
-          </p>
-        </div>
-
-        <ol class="timeline">
-          <li class="timeline__item animar" data-animar>
-            <span class="timeline__hora">16h00</span>
-            <div class="timeline__conteudo">
-              <h3 class="timeline__titulo">Início da cerimônia</h3>
-              <p>O momento mais esperado: diremos “sim” diante de Deus, da família e dos amigos.</p>
-            </div>
-          </li>
-          <li class="timeline__item animar" data-animar>
-            <span class="timeline__hora">17h30</span>
-            <div class="timeline__conteudo">
-              <h3 class="timeline__titulo">Encerramento da cerimônia</h3>
-              <p>Saída dos noivos, abraços apertados, fotos e muita emoção.</p>
-            </div>
-          </li>
-          <li class="timeline__item animar" data-animar>
-            <span class="timeline__hora">17h30–18h30</span>
-            <div class="timeline__conteudo">
-              <h3 class="timeline__titulo">Recepção &amp; Fotos</h3>
-              <p>Tempo para fotos com os noivos, conversas, aperitivos e aquele clima gostoso de festa em família.</p>
-            </div>
-          </li>
-          <li class="timeline__item animar" data-animar>
-            <span class="timeline__hora">18h30</span>
-            <div class="timeline__conteudo">
-              <h3 class="timeline__titulo">Jantar</h3>
-              <p>Vamos celebrar à mesa, agradecer e desfrutar juntos desse momento tão especial.</p>
-            </div>
-          </li>
-          <li class="timeline__item animar" data-animar>
-            <span class="timeline__hora">21h–22h</span>
-            <div class="timeline__conteudo">
-              <h3 class="timeline__titulo">Encerramento</h3>
-              <p>Despedidas, gratidão e o início de um novo capítulo: a nossa vida como família.</p>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         6) PAIS & AVÓS
-         As fotos ficam em <figure class="moldura"> e aceitam imagens
-         quadradas ou verticais sem deformar (object-fit: cover).
-         TROCAR FOTOS: assets/familia/<arquivo>.jpg
-         ============================================================ -->
-    <section class="secao familia" id="familia">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Pais &amp; Avós</h2>
-          <p class="secao__subtitulo">
-            Quem nos deu a vida, nos ensinou a amar e abençoa cada passo desta nova fase.
-          </p>
-        </div>
-
-        <!-- FAMÍLIA DO NOIVO -->
-        <h3 class="familia__grupo animar" data-animar>Família do noivo</h3>
-        <div class="pessoas">
-          <!-- TROCAR nome / parentesco / foto de cada pessoa abaixo -->
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/mae-noivo.jpg" alt="Carla Denise Bruns da Silva Santos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Carla Denise Bruns<span class="pessoa__papel">Mãe do noivo</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/pai-noivo.jpg" alt="Mario da Silva Santos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Mario da Silva Santos<span class="pessoa__papel">Pai do noivo</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/Opa.jpg" alt="Rodolfo Bruns" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Rodolfo Bruns<span class="pessoa__papel">Opa do noivo</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/Oma.jpg" alt="Carmem Bruns" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Carmem Bruns<span class="pessoa__papel">Oma do noivo</span></figcaption>
-          </figure>
-        </div>
-
-        <!-- FAMÍLIA DA NOIVA -->
-        <h3 class="familia__grupo animar" data-animar>Família da noiva</h3>
-        <div class="pessoas">
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/mae-noiva.jpg" alt="Mônica Barbosa da Silva" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Mônica Barbosa da Silva<span class="pessoa__papel">Mãe da noiva</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/pai-noiva.jpg" alt="Lindon Jhonson Silva Matos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Lindon Jhonson Silva Matos<span class="pessoa__papel">Pai da noiva</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/vo-noiva.jpg" alt="Benomir Henrique Silva Matos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Benomir Henrique Silva Matos<span class="pessoa__papel">Vô da noiva</span></figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto">
-              <img class="moldura__img" src="assets/familia/voa-noiva.jpg" alt="Maria de Jesus Silva Matos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Foto</span>
-            </span>
-            <figcaption class="pessoa__nome">Maria de Jesus Silva Matos<span class="pessoa__papel">Vó da noiva</span></figcaption>
-          </figure>
-        </div>
-
-        <p class="familia__fecho animar" data-animar>
-          Cada um deles tem um lugar único na nossa história. É uma alegria imensa tê-los conosco neste dia tão especial.
-        </p>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         7) PADRINHOS & MADRINHAS
-         TROCAR FOTOS: assets/padrinhos/<arquivo>.jpg
-         ============================================================ -->
-    <section class="secao secao--oliva padrinhos" id="padrinhos">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento secao__ornamento--claro" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Padrinhos &amp; Madrinhas</h2>
-          <p class="secao__subtitulo">
-            Amigos e familiares que caminharam conosco, oraram por nós e estarão pertinho do altar nesse grande momento.
-          </p>
-        </div>
-
-        <h3 class="familia__grupo familia__grupo--claro animar" data-animar>Padrinhos</h3>
-        <div class="pessoas pessoas--claro">
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Caua.jpg" alt="Cauã Nascimento de Paula Machado" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Cauã Nascimento</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Joao-Pedro.jpg" alt="João Pedro Ossucci Martins" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">João Pedro Ossucci</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Agenor.jpg" alt="Agenor Tavres de Araújo" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Agenor Araújo</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Daniel.jpg" alt="Daniel Vitor Picolotto" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Daniel Picolotto</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Marinho.jpg" alt="Carlos Eduardo Marinho" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Carlos Marinho</figcaption>
-          </figure>
-        </div>
-
-        <h3 class="familia__grupo familia__grupo--claro animar" data-animar>Madrinhas</h3>
-        <div class="pessoas pessoas--claro">
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Isadora.jpg" alt="Isadora" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Isadora Merlo</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Franciele.jpg" alt="Franciele" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Francielly Brito</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Rebeca.jpg" alt="Rebeca" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Rebeca Pires</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Phamela.jpg" alt="Phamela" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Phâmela Sicsú</figcaption>
-          </figure>
-          <figure class="pessoa animar" data-animar>
-            <span class="pessoa__foto"><img class="moldura__img" src="assets/padrinhos/Leticia.jpg" alt="Leticia" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto</span></span>
-            <figcaption class="pessoa__nome">Leticia Almeida</figcaption>
-          </figure>
-        </div>
-
-        <p class="familia__fecho familia__fecho--claro animar" data-animar>
-          Pessoas que escolhemos para caminhar bem pertinho de nós nesse dia.
-        </p>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         8) LISTA DE PRESENTES (cotas temáticas)
-         VISUAL pronto. Pagamentos (Pix/cartão) serão ativados quando os
-         links da InfinitePay forem definidos — ver script.js > initPresentes().
-         TROCAR FOTOS das cotas: assets/presentes/cota-1.jpg ... cota-8.jpg
-         TROCAR valores/nomes: edite data-cota-nome e data-cota-valor de cada card.
-         ============================================================ -->
-    <section class="secao presentes" id="presentes">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Lista de Presentes</h2>
-          <p class="secao__subtitulo">
-            A sua presença é o maior presente. Mas, se desejar nos presentear, preparamos algumas cotas com carinho.
-          </p>
-        </div>
-
-        <div class="presentes__texto animar" data-animar>
-          <p>Em vez de uma lista tradicional, escolhemos pequenos “momentos” do nosso novo lar. Escolha um que toque o seu coração e contribua por Pix ou cartão. Cada gesto nos ajuda a começar essa nova etapa.</p>
-        </div>
-
-        <div class="cotas">
-          <!-- Cada card: foto, nome do momento, valor e botões Pix/Cartão. -->
-          <article class="cota animar" data-animar data-cota data-cota-nome="Café da manhã na cama" data-cota-valor="250" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G2IBgGRqbQ2pXaKtCSIayiKiHaYTmryIVPJPf-jfHTi329_baguCIM2jIAwDDDTiEg_chs8XFKjueIqb1xmzeTSD6fw5kQeZQiQpkskiwDERuWy5XHVqlZ658Jd322sKwXbhZf8rX9_J3n-Fyo3TjVUrW_3yoHU6swZlq1rul2_cHsx80vvff3-a2oMG5FofldcAp2B1Q6QZXrWwPUQLgjIJkQLFcmbxc7VGTNZxnVUJqLK6ABzjCtCVWhWoKmNK0mqDKeZbeCimEkvCKaWMCPvYU629CMhA5dfe6kSKPeGCEMXpJX97Kh7D19cn.v1.8aaa63d6926baad7&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-1.jpg" alt="Café da manhã na cama" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Café da manhã na cama</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Café da manhã na cama</h3>
-              <p class="cota__valor">R$ 250</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Jantar a dois" data-cota-valor="350" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G1gBYORqbUNqn2j393uIS7033LpWQnNJDKEzHcudANx-t_1vD0GQtSCLgjAMMNCE04CC1uaw_fgUqB405-P3Anr0SOud3jMQR5GEJ6iNRRwoG3El9jWnQ1kWi8bOYFxMjhhMsTOz_-afi-7tFhTqXaHNCIzcKHVOJg-0167-l58-DaV6nm3JNYURoki2sSHJzF5r2VID9wFHIQYEnOYzbbYbwxHOi2DgdCIgmegJUmu1MhJ0OQMiAEQvGPJ6UGtsfcsTkTktqMlUjU7ZsjQqLwVSlvj6W41Ysge1BkCnInvs8ugbFKvm2g.v1.a5eea0987c0918d1&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-2.jpg" alt="Jantar a dois" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Jantar a dois</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Jantar a dois</h3>
-              <p class="cota__valor">R$ 350</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Um cantinho da casa" data-cota-valor="500" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G14BYGRqbkdqS7SpJ0T0t-He4TqhuTUqmetA5A6c2-33W21BECRtZUEUhGGAgUaeUNByC9Xk_jeAixb99HUBjB5Bszd4OPywJ2BxspTVBeN80rqrOe2reaNotgbjfHbA4ExbM-fv6z_rlnekAeU2mma5BeX1F0COVi9g0K3_F18_DZVmkXAttPUJzFKR3qY8K7LWI5UWOsTRQIpiAs1kwOTHeILmeD2XY4sFuEDpGEwZtAHrBMfCeD5X4BmeyRMEqw5lAiMYjMEp4mTS3JF7laeCAqJ8_O0CKjniFI3jDE_t4Mu9dQBcW-gC.v1.b67f6143ef56109a&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-3.jpg" alt="Um cantinho da casa" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Um cantinho da casa</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Um cantinho da casa</h3>
-              <p class="cota__valor">R$ 500</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Enxoval do lar" data-cota-valor="750" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G1sBYIzDOCY8iqPm0nz7TUgNb_fvqyRE9BDRDq8TmvksroT1VRq-5Q5Y32-_2_63IAjSPArCMMISCtKAgtbm-MP2FKgeNBfWPwvQ0SPqT2Zf7hDwh-0ezpnhAMMlPJea87VdLReNs8G03dwwuP5sZvmn01s-la8f9v5yMC91DdWBoVsa331u0Gzc_d_9-zTq1_GW2rC0AiCJldaFGbFrNWYA5wRMQ8gIMNBnNBwPlitY5QmcrdVoQLECDWhBKIFyjakCihJIoVxmK3Wqqs2VV0LmRNAkSRI0axsppeq3AhFO_PqbRSjZEjRDECzLX8jrZ-VAZK02Bg.v1.1bcfa15131396471&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-4.jpg" alt="Enxoval do lar" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Enxoval do lar</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Enxoval do lar</h3>
-              <p class="cota__valor">R$ 750</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Eletro dos sonhos" data-cota-valor="1.000" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G14BIGRwbjy1J9rVEyK6HxHp0gnNJVICHejfWwnh9vc2NsHMTNVlUZQiKVM6aK6FPsYeVC-UD7PPCjg-glZ_-HL4EU_A4uTCwRjijwvJQ9H1WCvkqmZvMS_nJxAe2tvZ_kzQYnXVvnlbGsVBrw0X2n24325V2v2z2QMY9hr_1edPY7VVYtyKHWOK0BTa3JBoRh_2aLWNjQgskjBQYKl-g06vPZlieCFfEniyhOCGwSG0USIQvmgYCJfLkyxLCYyQJ7WRQuIki7METZIESzPmrtKsvTUEmPJ1uIqYaCFohhiJpQ747dk7AK8r9gA.v1.070fc5d1562face1&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-5.jpg" alt="Eletro dos sonhos" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Eletro dos sonhos</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Eletro dos sonhos</h3>
-              <p class="cota__valor">R$ 1.000</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Uma diária da lua de mel" data-cota-valor="1.500" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G2UBABwJdmzJBsW4TVdrA1L6RLu_30XEG-R7MdQ6TCc0l8RQAp2EaoOPKMsd8YPh7_a7rbYgCNKwLQrCMMICDDzxoLU5_xwfqF7shdn7DLZ9ZK3-8JlDSqm8151JkjLivul8qKly19h5TIv5kYS37vxsfxZb7ov45VNJ4tSq1KuOSFxjWGlcU2ucTB_YsNf4Lz-BGqstnXXROtKUUCXf4JBs5m-2fLVNR0CjkQIDTads-XMypYoELt3lkImqOhXidKGb-CTdQVSQUEe32wc-iIxCKKBbcIMTETyA9m6oYXuJkLHF1-Lqp6o9OF0ATp97_wzs0T8YZqf1AA.v1.a707c138aa55f635&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-6.jpg" alt="Uma diária da lua de mel" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Uma diária da lua de mel</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Uma diária da lua de mel</h3>
-              <p class="cota__valor">R$ 1.500</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Nossa lua de mel" data-cota-valor="2.500" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G10BAGRqbkgqS7Sp4nZ9-kO9Q4fQXCIlcFQsd6oPoL_b77ZqQRBEbWFbHIYRFnniQXMt5DH2oHqhfJy-d6jXR7XZGzzjOTidDye4QrgI08F0Yd90OVQto2vsPObF7EjCO3d-jl-H-ze_iMtnptXr6VB90FsAaoD6yexFHXTr_-XnT1OlaTNuoK1PYJpEmpsSrcjLEam00CGORiIKCmgqVY8_xxMU4wHPAoaFCcCYMGVxGMxROgHzjA1I3CYNCuO9Q5nACAZjcIogcJYmPR25WXuJUGWKj8VdQFUrTtE4PgKzx2-P3qHidaAL.v1.a2ab0cf9e9ffe103&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-7.jpg" alt="Nossa lua de mel" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Nossa lua de mel</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Nossa lua de mel</h3>
-              <p class="cota__valor">R$ 2.500</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="cota animar" data-animar data-cota data-cota-nome="Construindo nosso lar" data-cota-valor="5.000" data-cota-link="https://checkout.infinitepay.io/jdbruns?lenc=G18BYGRybZAo9RNtv1dJqNbd9o9bh-uE5hIpgY7lDpx_t99ttQUPQZpHQVgWYQEHgQQUtDaXLT5QPfi5wvxzABo9ovZg9IqkQSITiKp8vAByUjF9qDkd6y4pGnuDcbk4YfDevZnlz-NbU1fl4fNt-2Ot7XaoUYtq4v7Z6waN-s3_6u2nVmuXEedSF88ATNLFNYF6-lpJ1zpwzMJEhJwAQwma2HQGV8gPXpYI4LEiAYFxeaBgVQEyliTikjJPhJI9NjfFnZFYgeNYhZP8PbNYfSsQIcXX36xByZoVRJYVOeVAX5-1A9F1pT4.v1.cfeae22a977fabc3&amp;from=webbuilder&amp;ajs_aid=94d798d5-0e1f-4f64-b8ce-5d8df2cd8830">
-            <figure class="cota__foto moldura">
-              <img class="moldura__img" src="assets/presentes/cota-8.jpg" alt="Construindo nosso lar" loading="lazy" />
-              <span class="moldura__placeholder" aria-hidden="true">Construindo nosso lar</span>
-            </figure>
-            <div class="cota__corpo">
-              <h3 class="cota__nome">Construindo nosso lar</h3>
-              <p class="cota__valor">R$ 5.000</p>
-              <div class="cota__botoes">
-                <button class="botao botao--ouro botao--bloco" type="button" data-cota-pagar>Presentear</button>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <!-- Modal de presente (preenchido via script.js > initPresentes) -->
-      <div class="modal-presente" data-modal hidden>
-        <div class="modal-presente__fundo" data-modal-fechar></div>
-        <div class="modal-presente__caixa" role="dialog" aria-modal="true" aria-labelledby="modal-presente-titulo">
-          <button class="modal-presente__x" type="button" data-modal-fechar aria-label="Fechar">&times;</button>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <p class="modal-presente__rotulo">Presentear com</p>
-          <h3 class="modal-presente__titulo" id="modal-presente-titulo" data-modal-nome>—</h3>
-          <p class="modal-presente__valor" data-modal-valor>—</p>
-
-          <div class="modal-presente__pagar">
-            <a class="botao botao--ouro botao--bloco" data-modal-link href="#" target="_blank" rel="noopener">Pagar com Pix ou cartão</a>
-            <p class="modal-presente__nota">Você vai para o ambiente seguro da InfinitePay, onde pode pagar por <strong>Pix</strong> (sem taxa) ou <strong>cartão em até 12×</strong>.</p>
-          </div>
-
-          <div class="modal-presente__divisor"><span>já presenteou?</span></div>
-
-          <form class="modal-presente__form" data-form-presente novalidate>
-            <p class="modal-presente__form-titulo">Avise os noivos 💚</p>
-            <div class="campo">
-              <label class="campo__rotulo" for="presente-nome">Seu nome (ou do casal)</label>
-              <input class="campo__entrada" id="presente-nome" name="nome" type="text" autocomplete="name" required />
-            </div>
-            <div class="campo">
-              <label class="campo__rotulo" for="presente-msg">Mensagem <span class="campo__opcional">(opcional)</span></label>
-              <textarea class="campo__entrada" id="presente-msg" name="mensagem" rows="2"></textarea>
-            </div>
-            <button class="botao botao--ouro botao--bloco" type="submit">Enviar pelo WhatsApp</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         9) CONFIRMAÇÃO DE PRESENÇA
-         O envio abre o WhatsApp (número e mensagem em script.js > CONFIG).
-         ============================================================ -->
-    <section class="secao secao--areia confirmacao" id="confirmacao">
-      <div class="container container--estreito">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Confirmação de Presença</h2>
-          <p class="secao__subtitulo">
-            Sua presença é muito especial para nós. Confirme abaixo e a mensagem será enviada diretamente pelo WhatsApp.
-          </p>
-
-  <!-- Aviso importante (card delicado) -->
-        <aside class="aviso animar" data-animar aria-label="Observação importante sobre a confirmação">
-          <span class="aviso__selo">Importante</span>
-          <p>Para que possamos organizar tudo com carinho e dentro da capacidade planejada para o evento, pedimos que a confirmação seja realizada apenas pelas pessoas contempladas no convite.</p>
-          <p>Nosso casamento será uma celebração intimista e familiar, por isso não será possível incluir amigos, conhecidos ou acompanhantes não previstos inicialmente pelos anfitriões.</p>
-          <p>Caso exista a necessidade de levar acompanhante(s), essa informação poderá ser informada no momento da confirmação. Cada solicitação será analisada individualmente pelos noivos, de acordo com a organização do evento e a disponibilidade de lugares.</p>
-        </aside>
-
-        </div>
-
-        <form class="formulario animar" data-animar data-form-confirmacao novalidate>
-          <div class="campo">
-            <label class="campo__rotulo" for="nome">Nome completo</label>
-            <input class="campo__entrada" id="nome" name="nome" type="text" autocomplete="name" required />
-          </div>
-
-          <div class="campo">
-            <label class="campo__rotulo" for="acompanhantes">Quantidade de acompanhantes</label>
-            <input class="campo__entrada" id="acompanhantes" name="acompanhantes" type="number" min="0" step="1" inputmode="numeric" value="0" />
-          </div>
-
-          <div class="campo">
-            <label class="campo__rotulo" for="observacoes">Observações <span class="campo__opcional">(opcional)</span></label>
-            <textarea class="campo__entrada" id="observacoes" name="observacoes" rows="3"></textarea>
-          </div>
-
-          <button class="botao botao--ouro botao--bloco" type="submit">Confirmar presença pelo WhatsApp</button>
-        </form>
-
-      </div>
-    </section>
-
-    <!-- ============================================================
-         10) GALERIA  (carrossel premium — preparado p/ 10+ fotos)
-         TROCAR FOTOS: assets/galeria/foto-01.jpg ... duplique <figure> p/ adicionar.
-         ============================================================ -->
-    <section class="secao galeria" id="galeria">
-      <div class="container">
-        <div class="secao__cabecalho animar" data-animar>
-          <span class="secao__ornamento" aria-hidden="true"></span>
-          <h2 class="secao__titulo">Galeria</h2>
-          <p class="secao__subtitulo">
-            Alguns registros da nossa história e, em breve, também do grande dia.
-          </p>
-        </div>
-
-        <div class="carrossel carrossel--galeria animar" data-animar data-carrossel aria-roledescription="carrossel" aria-label="Galeria de fotos">
-          <div class="carrossel__janela">
-            <div class="carrossel__trilho" data-carrossel-trilho>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto01.jpg" alt="Foto da galeria 1" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 01</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto02.jpg" alt="Foto da galeria 2" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 02</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto03.jpg" alt="Foto da galeria 3" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 03</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto04.jpg" alt="Foto da galeria 4" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 04</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto05.jpg" alt="Foto da galeria 5" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 05</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto06.jpg" alt="Foto da galeria 6" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 06</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto07.jpg" alt="Foto da galeria 7" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 07</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto08.jpg" alt="Foto da galeria 8" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 08</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto09.jpg" alt="Foto da galeria 9" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 09</span></figure>
-              <figure class="carrossel__slide"><img class="moldura__img" src="assets/galeria/foto10.jpg" alt="Foto da galeria 10" loading="lazy" /><span class="moldura__placeholder" aria-hidden="true">Foto 10</span></figure>
-            </div>
-          </div>
-          <button class="carrossel__seta carrossel__seta--ant" type="button" aria-label="Foto anterior" data-carrossel-ant>‹</button>
-          <button class="carrossel__seta carrossel__seta--prox" type="button" aria-label="Próxima foto" data-carrossel-prox>›</button>
-          <div class="carrossel__dots" data-carrossel-dots aria-hidden="true"></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ============================================================
-       RODAPÉ
-       ============================================================ -->
-  <footer class="rodape">
-    <div class="container">
-      <p class="rodape__nomes">Laura &amp; José</p>
-      <p class="rodape__mensagem">
-       "Assim, eles já não são dois, mas sim uma só carne. Portanto, o que Deus uniu, ninguém o separe".
-Mateus 19:6
-      </p>
-      <span class="rodape__ornamento" aria-hidden="true"></span>
-      <p class="rodape__assinatura">15 de novembro de 2026 · Brusque/SC</p>
-    </div>
-  </footer>
-
-  <!-- Toast / mensagens ao usuário (preenchido via script.js) -->
-  <div class="toast" data-toast role="status" aria-live="polite"></div>
-
-  <script src="script.js" defer></script>
-</body>
-</html>
+/* ===========================================================================
+   LAURA & JOSÉ — SCRIPT
+   ---------------------------------------------------------------------------
+   Organização:
+     CONFIG            → dados que você pode precisar trocar (WhatsApp, endereço…)
+     initMenuMobile()  → abre/fecha o menu hamburguer
+     initCabecalho()   → muda o header ao rolar
+     initAnimacoes()   → entrada dos elementos ao rolar (IntersectionObserver)
+     initImagens()     → carregamento/lazy + fallback das fotos
+     initCarrosseis()  → carrosséis (trajes e galeria) — componente reutilizável
+     initCopiarEndereco()
+     initConfirmacao() → monta a mensagem e abre o WhatsApp
+     mostrarToast()    → aviso flutuante ao usuário
+   =========================================================================== */
+
+(() => {
+  'use strict';
+
+  /* =========================================================================
+     CONFIG  ·  TROQUE AQUI AS INFORMAÇÕES SENSÍVEIS
+     ========================================================================= */
+  const CONFIG = {
+    /* TROCAR NÚMERO DO WHATSAPP: somente dígitos, com DDI (55) e DDD.
+       Atenção: confirme este número antes de divulgar o site. */
+    whatsapp: '5547991120083',
+
+    /* TROCAR ENDEREÇO usado no botão "Copiar endereço" */
+    endereco: 'R. Dorval Luz, 183 — Brusque/SC, CEP 88352-402 (Arte & Gula)',
+
+    /* TROCAR MENSAGEM DE CONFIRMAÇÃO enviada ao WhatsApp.
+       Os marcadores {nome}, {acompanhantes} e {observacoes} são preenchidos pelo formulário. */
+    mensagemConfirmacao:
+      'Olá, tudo bem?\n\n' +
+      'Estou entrando em contato através do site do casamento de Laura e José para confirmar minha presença.\n\n' +
+      'Nome:\n{nome}\n\n' +
+      'Quantidade de acompanhantes:\n{acompanhantes}\n\n' +
+      'Observações:\n{observacoes}\n\n' +
+      'Aguardo a confirmação da presença.\n\nObrigado(a)!',
+
+    /* Texto do toast após enviar a confirmação */
+    avisoConfirmacao:
+      'Sua solicitação de presença foi enviada com sucesso. ' +
+      'A confirmação será analisada pelos anfitriões e respondida em até 48 horas.',
+
+    /* TROCAR DATA DO EVENTO (contagem regressiva). Fuso de Brasília (-03:00). */
+    dataEvento: '2026-11-15T16:00:00-03:00',
+
+    /* Mensagem da confirmação "presenteei" (lista de presentes).
+       {nome}, {valor}, {cota} e {mensagem} são preenchidos automaticamente. */
+    mensagemPresente:
+      'Olá! Aqui é {nome}. 💚\n\n' +
+      'Presenteamos vocês com R$ {valor} ({cota}) para o casamento de Laura e José.\n\n' +
+      '{fecho}',
+  };
+
+  /* =========================================================================
+     UTIL
+     ========================================================================= */
+  const $  = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  const prefereReduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =========================================================================
+     MENU MOBILE
+     ========================================================================= */
+  /** Abre/fecha o menu hamburguer e controla overlay + acessibilidade. */
+  function initMenuMobile() {
+    const botao   = $('[data-menu-toggle]');
+    const nav     = $('.cabecalho__nav');
+    const menu    = $('[data-menu]');
+    const overlay = $('[data-menu-overlay]');
+    if (!botao || !nav || !overlay) return;
+
+    /** @param {boolean} abrir */
+    const alternar = (abrir) => {
+      nav.classList.toggle('is-aberto', abrir);
+      botao.classList.toggle('is-aberto', abrir);
+      botao.setAttribute('aria-expanded', String(abrir));
+      botao.setAttribute('aria-label', abrir ? 'Fechar menu de navegação' : 'Abrir menu de navegação');
+      overlay.hidden = !abrir;
+      // dispara a transição de opacidade no próximo frame
+      requestAnimationFrame(() => overlay.classList.toggle('is-visivel', abrir));
+      document.body.style.overflow = abrir ? 'hidden' : '';
+    };
+
+    botao.addEventListener('click', () => alternar(!nav.classList.contains('is-aberto')));
+    overlay.addEventListener('click', () => alternar(false));
+    // fecha ao clicar em um link do menu
+    menu && $$('.menu__link', menu).forEach((link) => link.addEventListener('click', () => alternar(false)));
+    // fecha com ESC
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') alternar(false); });
+  }
+
+  /* =========================================================================
+     CABEÇALHO AO ROLAR
+     ========================================================================= */
+  /** Adiciona a classe .is-rolado ao header depois de um pequeno scroll. */
+  function initCabecalho() {
+    const cabecalho = $('[data-cabecalho]');
+    if (!cabecalho) return;
+    const atualizar = () => cabecalho.classList.toggle('is-rolado', window.scrollY > 60);
+    atualizar();
+    window.addEventListener('scroll', atualizar, { passive: true });
+  }
+
+  /* =========================================================================
+     ANIMAÇÕES AO ROLAR (IntersectionObserver)
+     ========================================================================= */
+  /** Revela elementos [data-animar] quando entram na viewport. */
+  function initAnimacoes() {
+    const alvos = $$('[data-animar]');
+    if (prefereReduzirMovimento || !('IntersectionObserver' in window)) {
+      alvos.forEach((el) => el.classList.add('is-visivel'));
+      return;
+    }
+    const observador = new IntersectionObserver((entradas, obs) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add('is-visivel');
+          obs.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    alvos.forEach((el) => observador.observe(el));
+  }
+
+  /* =========================================================================
+     IMAGENS — fade-in ao carregar + fallback de placeholder
+     (o carregamento preguiçoso é nativo, via loading="lazy" no HTML)
+     ========================================================================= */
+  /** Revela cada foto com um fade suave quando carrega; se faltar, mantém o placeholder. */
+  function initImagens() {
+    const revelar = (img) => img.classList.add('is-carregada');
+    $$('img.moldura__img').forEach((img) => {
+      // Já carregada (cache) → revela na hora.
+      if (img.complete && img.naturalWidth > 0) { revelar(img); return; }
+      img.addEventListener('load', () => revelar(img), { once: true });
+      // Erro (foto ainda não adicionada) → placeholder elegante continua visível.
+      img.addEventListener('error', () => img.classList.remove('is-carregada'), { once: true });
+    });
+  }
+
+  /* =========================================================================
+     CARROSSEL — componente reutilizável
+     Usado nos trajes (masc/fem) e na galeria. Suporta:
+     setas, dots, swipe (mobile), teclado e redimensionamento.
+     ========================================================================= */
+  /**
+   * Inicializa um carrossel a partir do elemento raiz [data-carrossel].
+   * @param {HTMLElement} raiz
+   */
+  function criarCarrossel(raiz) {
+    const trilho = $('[data-carrossel-trilho]', raiz);
+    const slides = $$('.carrossel__slide', trilho);
+    const btnAnt = $('[data-carrossel-ant]', raiz);
+    const btnProx = $('[data-carrossel-prox]', raiz);
+    const dotsBox = $('[data-carrossel-dots]', raiz);
+    if (!trilho || slides.length === 0) return;
+
+    let indice = 0;
+
+    /** Gera os indicadores (dots). */
+    const montarDots = () => {
+      if (!dotsBox) return;
+      dotsBox.innerHTML = '';
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carrossel__dot';
+        dot.setAttribute('aria-label', `Ir para a foto ${i + 1}`);
+        dot.addEventListener('click', () => irPara(i));
+        dotsBox.appendChild(dot);
+      });
+    };
+
+    /** Atualiza a posição do trilho e o estado dos dots. */
+    const atualizar = () => {
+      trilho.style.transform = `translateX(-${indice * 100}%)`;
+      if (dotsBox) $$('.carrossel__dot', dotsBox).forEach((d, i) => d.classList.toggle('is-ativo', i === indice));
+    };
+
+    /** @param {number} i */
+    const irPara = (i) => { indice = (i + slides.length) % slides.length; atualizar(); };
+    const proximo = () => irPara(indice + 1);
+    const anterior = () => irPara(indice - 1);
+
+    btnProx && btnProx.addEventListener('click', proximo);
+    btnAnt  && btnAnt.addEventListener('click', anterior);
+
+    // Navegação por teclado quando o carrossel está focado
+    raiz.setAttribute('tabindex', '0');
+    raiz.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); proximo(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); anterior(); }
+    });
+
+    // Swipe no mobile (toque)
+    let xInicial = null;
+    trilho.addEventListener('touchstart', (e) => { xInicial = e.touches[0].clientX; }, { passive: true });
+    trilho.addEventListener('touchend', (e) => {
+      if (xInicial === null) return;
+      const delta = e.changedTouches[0].clientX - xInicial;
+      if (Math.abs(delta) > 45) (delta < 0 ? proximo : anterior)();
+      xInicial = null;
+    }, { passive: true });
+
+    montarDots();
+    atualizar();
+  }
+
+  /** Inicializa todos os carrosséis da página. */
+  function initCarrosseis() { $$('[data-carrossel]').forEach(criarCarrossel); }
+
+  /* =========================================================================
+     COPIAR ENDEREÇO
+     ========================================================================= */
+  /** Copia CONFIG.endereco para a área de transferência e mostra um toast. */
+  function initCopiarEndereco() {
+    $$('[data-copiar-endereco]').forEach((botao) => {
+      botao.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(CONFIG.endereco);
+          mostrarToast('Endereço copiado para a área de transferência.');
+        } catch {
+          // Fallback para navegadores sem clipboard API
+          const area = document.createElement('textarea');
+          area.value = CONFIG.endereco;
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand('copy');
+          document.body.removeChild(area);
+          mostrarToast('Endereço copiado.');
+        }
+      });
+    });
+  }
+
+  /* =========================================================================
+     CONFIRMAÇÃO DE PRESENÇA (WhatsApp)
+     ========================================================================= */
+  /** Monta a mensagem a partir do formulário e abre o WhatsApp. */
+  function initConfirmacao() {
+    const form = $('[data-form-confirmacao]');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nome = form.nome.value.trim();
+      const acompanhantes = form.acompanhantes.value.trim() || '0';
+      const observacoes = form.observacoes.value.trim() || 'Nenhuma';
+
+      if (!nome) {
+        mostrarToast('Por favor, informe seu nome completo.');
+        form.nome.focus();
+        return;
+      }
+
+      const mensagem = CONFIG.mensagemConfirmacao
+        .replace('{nome}', nome)
+        .replace('{acompanhantes}', acompanhantes)
+        .replace('{observacoes}', observacoes);
+
+      const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank', 'noopener');
+
+      mostrarToast(CONFIG.avisoConfirmacao, 6500);
+      form.reset();
+    });
+  }
+
+  /* =========================================================================
+     TOAST
+     ========================================================================= */
+  let toastTimer = null;
+  /**
+   * Exibe um aviso flutuante temporário.
+   * @param {string} texto
+   * @param {number} [duracao=4000] em milissegundos
+   */
+  function mostrarToast(texto, duracao = 4000) {
+    const toast = $('[data-toast]');
+    if (!toast) return;
+    toast.textContent = texto;
+    toast.classList.add('is-visivel', 'toast__borda');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('is-visivel'), duracao);
+  }
+
+  /* =========================================================================
+     CONTAGEM REGRESSIVA
+     ========================================================================= */
+  /** Atualiza dias/horas/minutos/segundos até CONFIG.dataEvento, a cada segundo. */
+  function initContagem() {
+    const raiz = $('[data-contagem]');
+    if (!raiz) return;
+
+    const els = {
+      dias:  $('[data-cont-dias]', raiz),
+      horas: $('[data-cont-horas]', raiz),
+      min:   $('[data-cont-min]', raiz),
+      seg:   $('[data-cont-seg]', raiz),
+    };
+    const alvo = new Date(CONFIG.dataEvento).getTime();
+    const doisDigitos = (n) => String(n).padStart(2, '0');
+
+    const tick = () => {
+      const restante = alvo - Date.now();
+
+      // Evento já começou/passou: mostra mensagem no lugar dos números.
+      if (restante <= 0) {
+        raiz.classList.add('contagem--encerrada');
+        raiz.textContent = 'É hoje! Que Deus abençoe este dia.';
+        clearInterval(intervalo);
+        return;
+      }
+
+      const seg = Math.floor(restante / 1000);
+      els.dias.textContent  = doisDigitos(Math.floor(seg / 86400));
+      els.horas.textContent = doisDigitos(Math.floor((seg % 86400) / 3600));
+      els.min.textContent   = doisDigitos(Math.floor((seg % 3600) / 60));
+      els.seg.textContent   = doisDigitos(seg % 60);
+    };
+
+    tick();
+    const intervalo = setInterval(tick, 1000);
+  }
+
+  /* =========================================================================
+     TELA DE ABERTURA (ENVELOPE CINEMATOGRÁFICO)
+     ========================================================================= */
+  /**
+   * Poeira dourada flutuando no fundo da abertura (canvas leve, 60fps).
+   * @param {HTMLCanvasElement} canvas
+   * @returns {() => void} função para parar e limpar a animação
+   */
+  function initParticulas(canvas) {
+    if (!canvas || prefereReduzirMovimento) return () => {};
+    const ctx = canvas.getContext('2d');
+    let raf = 0, larg = 0, alt = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let particulas = [];
+
+    const dimensionar = () => {
+      larg = canvas.clientWidth; alt = canvas.clientHeight;
+      canvas.width = larg * dpr; canvas.height = alt * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const criar = () => {
+      const total = Math.round(Math.min(70, (larg * alt) / 16000));
+      particulas = Array.from({ length: total }, () => ({
+        x: Math.random() * larg, y: Math.random() * alt,
+        r: Math.random() * 1.8 + 0.6,
+        vy: -(Math.random() * 0.25 + 0.08),
+        sway: Math.random() * 0.6 + 0.2, fase: Math.random() * Math.PI * 2,
+        brilho: Math.random() * 0.5 + 0.25,
+      }));
+    };
+    const desenhar = () => {
+      ctx.clearRect(0, 0, larg, alt);
+      for (const p of particulas) {
+        p.y += p.vy; p.fase += 0.01; p.x += Math.sin(p.fase) * p.sway * 0.3;
+        if (p.y < -5) { p.y = alt + 5; p.x = Math.random() * larg; }
+        const cintila = p.brilho * (0.6 + 0.4 * Math.sin(p.fase * 2));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225, 205, 160, ${cintila})`;
+        ctx.shadowColor = 'rgba(225,205,160,0.8)'; ctx.shadowBlur = 6;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(desenhar);
+    };
+
+    dimensionar(); criar(); desenhar();
+    const aoRedimensionar = () => { dimensionar(); criar(); };
+    window.addEventListener('resize', aoRedimensionar);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', aoRedimensionar); };
+  }
+
+  /**
+   * Orquestra a abertura: romper o lacre → abrir a aba → carta flutua para fora →
+   * zoom de revelação com entrada coreografada do Hero.
+   */
+  function initAbertura() {
+    const abertura = $('[data-abertura]');
+    const lacre = $('[data-abertura-lacre]');
+    if (!abertura || !lacre) return;
+
+    // Brasão: se a imagem não carregar (ainda não adicionada), mostra o texto "L&J".
+    const brasao = $('[data-brasao]', lacre);
+    if (brasao) {
+      const semBrasao = () => lacre.classList.add('sem-brasao');
+      brasao.addEventListener('error', semBrasao, { once: true });
+      if (!brasao.getAttribute('src') || (brasao.complete && brasao.naturalWidth === 0)) semBrasao();
+    }
+
+    // Poeira dourada de fundo.
+    const pararParticulas = initParticulas($('[data-particulas]', abertura));
+
+    // Trava o scroll e segura a entrada do Hero.
+    document.body.classList.add('abertura-ativa', 'aguardando-abertura');
+
+    // Fases (ms). Sob redução de movimento, tudo quase imediato.
+    const rm = prefereReduzirMovimento;
+    const T = rm
+      ? { aba: 20, sai: 120, fim: 260 }
+      : { aba: 650, sai: 2300, fim: 3250 };
+
+    let aberto = false;
+    const abrir = () => {
+      if (aberto) return;
+      aberto = true;
+      // 1) rompe o selo (onda de choque + selo sobe e some)
+      abertura.classList.add('is-abrindo');
+      // 2) abre a aba revelando o forro; a carta sai por CSS junto de .is-aberto
+      setTimeout(() => abertura.classList.add('is-aberto'), T.aba);
+      // 3) zoom de revelação + entrada coreografada do Hero
+      setTimeout(() => {
+        abertura.classList.add('is-saindo');
+        document.body.classList.remove('abertura-ativa', 'aguardando-abertura');
+        document.body.classList.add('site-revelado');
+      }, T.sai);
+      // 4) limpeza
+      setTimeout(() => { pararParticulas(); abertura.remove(); }, T.fim);
+    };
+
+    lacre.addEventListener('click', abrir);
+    lacre.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
+    });
+  }
+
+  /* =========================================================================
+     LISTA DE PRESENTES — modal + confirmação "presenteei"
+     Pagamentos (Pix/cartão) entram aqui quando os links da InfinitePay
+     forem definidos. Por ora abrem um aviso "em breve".
+     ========================================================================= */
+  function initPresentes() {
+    const modal = $('[data-modal]');
+    if (!modal) return;
+
+    const elNome = $('[data-modal-nome]', modal);
+    const elValor = $('[data-modal-valor]', modal);
+    const form = $('[data-form-presente]', modal);
+    const elLink = $('[data-modal-link]', modal);
+    let cota = { nome: '', valor: '', link: '' };
+
+    const abrir = (nome, valor, link) => {
+      cota = { nome, valor, link };
+      elNome.textContent = nome;
+      elValor.textContent = 'R$ ' + valor;
+      if (elLink) {
+        if (link) { elLink.href = link; elLink.style.display = ''; }
+        else { elLink.removeAttribute('href'); elLink.style.display = 'none'; }
+      }
+      modal.hidden = false;
+      requestAnimationFrame(() => modal.classList.add('is-aberto'));
+      document.body.classList.add('modal-ativo');
+    };
+    const fechar = () => {
+      modal.classList.remove('is-aberto');
+      document.body.classList.remove('modal-ativo');
+      setTimeout(() => { modal.hidden = true; }, 320);
+    };
+
+    // Botão "Presentear" de cada card abre o modal com a cota escolhida.
+    $$('[data-cota]').forEach((card) => {
+      const nome = card.dataset.cotaNome;
+      const valor = card.dataset.cotaValor;
+      const link = card.dataset.cotaLink || '';
+      $$('[data-cota-pagar]', card).forEach((b) => b.addEventListener('click', () => abrir(nome, valor, link)));
+    });
+
+    $$('[data-modal-fechar]', modal).forEach((b) => b.addEventListener('click', fechar));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) fechar(); });
+
+    // Confirmação "presenteei" → abre o WhatsApp com a mensagem pronta (FUNCIONAL).
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = form.nome.value.trim();
+      if (!nome) { mostrarToast('Por favor, informe seu nome.'); form.nome.focus(); return; }
+      const msg = form.mensagem.value.trim();
+      // Fecho da mensagem: se o convidado escreveu algo, usa o texto dele;
+      // se deixou em branco, usa a bênção padrão. Nunca os dois juntos.
+      const fecho = msg ? msg : 'Que Deus abençoe essa nova caminhada!';
+      const texto = CONFIG.mensagemPresente
+        .replace('{nome}', nome)
+        .replace('{valor}', cota.valor)
+        .replace('{cota}', cota.nome)
+        .replace('{fecho}', fecho);
+      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+      mostrarToast('Obrigado! Sua mensagem está pronta no WhatsApp. 💚', 6000);
+      form.reset();
+      fechar();
+    });
+  }
+
+  /* =========================================================================
+     INICIALIZAÇÃO
+     ========================================================================= */
+  function init() {
+    initAbertura();
+    initMenuMobile();
+    initCabecalho();
+    initAnimacoes();
+    initImagens();
+    initCarrosseis();
+    initCopiarEndereco();
+    initConfirmacao();
+    initContagem();
+    initPresentes();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
