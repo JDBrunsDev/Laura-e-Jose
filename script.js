@@ -50,7 +50,7 @@
     mensagemPresente:
       'Olá! Aqui é {nome}. 💚\n\n' +
       'Presenteamos vocês com R$ {valor} ({cota}) para o casamento de Laura e José.\n\n' +
-      '{mensagem}Que Deus abençoe essa nova caminhada!',
+      '{fecho}',
   };
 
   /* =========================================================================
@@ -479,11 +479,14 @@
       const nome = form.nome.value.trim();
       if (!nome) { mostrarToast('Por favor, informe seu nome.'); form.nome.focus(); return; }
       const msg = form.mensagem.value.trim();
+      // Fecho da mensagem: se o convidado escreveu algo, usa o texto dele;
+      // se deixou em branco, usa a bênção padrão. Nunca os dois juntos.
+      const fecho = msg ? msg : 'Que Deus abençoe essa nova caminhada!';
       const texto = CONFIG.mensagemPresente
         .replace('{nome}', nome)
         .replace('{valor}', cota.valor)
         .replace('{cota}', cota.nome)
-        .replace('{mensagem}', msg ? msg + '\n\n' : '');
+        .replace('{fecho}', fecho);
       window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
       mostrarToast('Obrigado! Sua mensagem está pronta no WhatsApp. 💚', 6000);
       form.reset();
