@@ -730,3 +730,10 @@ body.modal-ativo { overflow: hidden; }
 @media (max-width: 980px) { .cotas { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 680px) { .cotas { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 400px) { .cotas { grid-template-columns: 1fr; } }
+
+/* No celular, o conteúdo do hero ocupa toda a altura disponível e o indicador
+   de rolagem (absoluto no rodapé) acabava encostando no "Copiar endereço".
+   Em telas pequenas ele é ocultado — em toque, a rolagem é natural. */
+@media (max-width: 768px) {
+  .hero__rolar { display: none; }
+}
