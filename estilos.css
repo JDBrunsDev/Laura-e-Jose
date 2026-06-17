@@ -605,15 +605,24 @@ textarea.campo__entrada { resize: vertical; min-height: 90px; }
 
   .cabecalho__nav {
     position: fixed; inset: 0 0 0 auto; width: min(82vw, 340px);
-    flex-direction: column; justify-content: center;
+    flex-direction: column; justify-content: flex-start;
+    overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
     background: linear-gradient(160deg, var(--oliva-600), var(--oliva-900));
-    padding: 4rem 2rem calc(2rem + var(--safe-bottom)); padding-top: calc(4rem + var(--safe-top));
+    padding: 4.5rem 2rem calc(2rem + var(--safe-bottom)); padding-top: calc(4.5rem + var(--safe-top));
     transform: translateX(100%); transition: transform var(--transicao); z-index: 110;
   }
   .cabecalho__nav.is-aberto { transform: translateX(0); }
   .menu { flex-direction: column; gap: 0; }
   .menu__link { display: block; color: var(--texto-claro); text-shadow: none; font-size: 0.95rem; padding-block: 1rem; border-bottom: 1px solid rgba(243,241,230,0.12); }
   .menu__link::after { display: none; }
+  /* O painel mobile é verde-escuro: manter texto e "×" claros mesmo quando o
+     cabeçalho está "rolado" (estado que, no desktop, escurece o menu). */
+  .cabecalho.is-rolado .menu__link { color: var(--texto-claro); }
+  .cabecalho.is-rolado .cabecalho__hamburguer.is-aberto span { background: #fff; }
+  /* CRÍTICO: o backdrop-filter do cabeçalho cria um "containing block" que faz o
+     menu fixo se referenciar ao cabeçalho (vira uma faixa). Removido no mobile,
+     onde o nav é um painel fixo de tela cheia. No desktop o blur é mantido. */
+  .cabecalho.is-rolado { backdrop-filter: none; }
 
   .cartoes { grid-template-columns: repeat(2, 1fr); }
   .pessoas { grid-template-columns: repeat(3, 1fr); }
