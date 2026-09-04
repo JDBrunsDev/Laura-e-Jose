@@ -33,7 +33,7 @@
       'Olá, tudo bem?\n\n' +
       'Estou entrando em contato através do site do casamento de Laura e José para confirmar minha presença.\n\n' +
       'Nome:\n{nome}\n\n' +
-      'Quantidade de acompanhantes:\n{acompanhantes}\n\n' +
+      'Acompanhantes já incluídos no convite:\n{acompanhantes}\n\n' +
       'Observações:\n{observacoes}\n\n' +
       'Aguardo a confirmação da presença.\n\nObrigado(a)!',
 
