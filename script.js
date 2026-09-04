@@ -28,13 +28,11 @@
     endereco: 'R. Dorval Luz, 183 — Brusque/SC, CEP 88352-402 (Arte & Gula)',
 
     /* TROCAR MENSAGEM DE CONFIRMAÇÃO enviada ao WhatsApp.
-       Os marcadores {nome}, {acompanhantes} e {observacoes} são preenchidos pelo formulário. */
+       O marcador {nome} é preenchido pelo formulário. */
     mensagemConfirmacao:
       'Olá, tudo bem?\n\n' +
       'Estou entrando em contato através do site do casamento de Laura e José para confirmar minha presença.\n\n' +
       'Nome:\n{nome}\n\n' +
-      'Acompanhantes já incluídos no convite:\n{acompanhantes}\n\n' +
-      'Observações:\n{observacoes}\n\n' +
       'Aguardo a confirmação da presença.\n\nObrigado(a)!',
 
     /* Texto do toast após enviar a confirmação */
@@ -247,8 +245,6 @@
       e.preventDefault();
 
       const nome = form.nome.value.trim();
-      const acompanhantes = form.acompanhantes.value.trim() || '0';
-      const observacoes = form.observacoes.value.trim() || 'Nenhuma';
 
       if (!nome) {
         mostrarToast('Por favor, informe seu nome completo.');
@@ -257,9 +253,7 @@
       }
 
       const mensagem = CONFIG.mensagemConfirmacao
-        .replace('{nome}', nome)
-        .replace('{acompanhantes}', acompanhantes)
-        .replace('{observacoes}', observacoes);
+        .replace('{nome}', nome);
 
       const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank', 'noopener');
